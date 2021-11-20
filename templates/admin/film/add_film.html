@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html lang="en">
+
+<head>
+    ${header_include}
+
+</head>
+
+<body class="hold-transition sidebar-mini" ng-app="myApp" ng-cloak>
+    <div class="wrapper" ng-controller="mainCtrl">
+
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="${app_domain}/admin/logout" role="button">
+                       Logout <i class="fas fa-sign-out-alt"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <!-- /.navbar -->
+
+        <!-- Main Sidebar Container -->
+        <div ng-include="APP_DOMAIN +'admin/partital/menu.html'"></div>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="m-0">Add Film</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="#">Dashbroad</a></li>
+                                <li class="breadcrumb-item active">Manage Film </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main content -->
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="card card-primary">
+                        <!-- form start -->
+                        <form>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label>Title</label>
+                                    <input ng-model="title" type="text" class="form-control" placeholder="Title">
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Category</label>
+                                            <select ng-model="category" ng-init="category='0'" class="form-control">
+                                                <option value="0">Choose the Category</option>
+                                                <option ng-repeat="item in listCateFilm" value="{{item.id}}">{{item.name}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Upload File Poster</label>
+                                        <br>
+                                        <input type="file" file="filex" name="file2" id="preImg" accept="image/png, image/gif, image/jpeg" required style="margin-bottom: 10px;" />
+                                        <br />
+                                        <img id="blah" src="#" alt="your image" onerror="this.style.display = 'none'" width="150px" />
+                                        <br>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Description</label>
+                                    <textarea ng-model="description" type="text" class="form-control" rows="3" placeholder="Description"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Content</label>
+                                    <textarea ng-model="content" type="text" class="form-control" rows="6" placeholder="Content"></textarea>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Duration</label>
+                                            <input ng-model="duration" type="text" class="form-control" placeholder="Ex: 1 giờ 30 phút">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Opening Day</label>
+                                            <input ng-model="opening_day" type="text" class="form-control" placeholder="dd/mm/yy">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Trailer</label>
+                                    <input ng-model="trailer" type="text" class="form-control" placeholder="Trailer">
+                                </div>
+                                <div class="form-group">
+                                    <label>Status</label>
+                                    <select ng-model="status" ng-init="status='0'" class="form-control">
+                                        <option value="0">Choose the Status</option>
+                                        <option value="1">Show</option>
+                                        <option value="2">Hide</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-check">
+                                        <input ng-model="trending" class="form-check-input" type="checkbox">
+                                        <label class="form-check-label"><b>Trending</b></label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input ng-model="upcoming" class="form-check-input" type="checkbox">
+                                        <label class="form-check-label"><b>Upcoming</b></label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input ng-model="popular" class="form-check-input" type="checkbox">
+                                        <label class="form-check-label"><b>Popular</b></label>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button type="submit" ng-click="addData()" class="btn btn-primary">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.container-fluid -->
+                </div>
+                <!-- /.content -->
+            </div>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+
+
+    </div>
+    <!-- ./wrapper -->
+
+    <!-- REQUIRED SCRIPTS -->
+
+    ${footer_include}
+
+    <script>
+        var app = angular.module('myApp', []); //ngPagination
+        app.directive('file', function() {
+            return {
+                scope: {
+                    file: '='
+                },
+                link: function(scope, el, attrs) {
+                    el.bind('change', function(event) {
+                        var file = event.target.files[0];
+                        scope.file = file ? file : undefined;
+                        scope.$apply();
+                    });
+                }
+            };
+        });
+
+
+
+
+        app.controller('mainCtrl', function($scope, $http, $rootScope) {
+            var url = document.URL.split('/');
+            var urltmp = url[4].split('?')[0];
+            $rootScope.lastUri = urltmp.split('#')[0];
+            $scope.APP_DOMAIN = "${app_domain}/";
+
+            preImg.onchange = evt => {
+                const [file] = preImg.files
+                if (file) {
+                    blah.src = URL.createObjectURL(file)
+                    blah.style = "block";
+                }
+            }
+
+            //load cate
+            $http({
+                method: "GET",
+                url: $scope.APP_DOMAIN + "admin/api/cate_film",
+                params: {
+                    action: 'getcatefilm',
+                    page_index: 1,
+                    limit: 100
+                },
+            }).then(function(response) {
+                // console.log(response);
+                $scope.listCateFilm = response.data.data.listCateFilm;
+            })
+
+
+
+            $scope.addData = function() {
+                console.log($scope.category);
+                console.log($scope.title);
+                console.log($scope.description);
+                console.log($scope.content);
+                console.log($scope.duration);
+                console.log($scope.opening_day);
+                console.log($scope.trailer);
+                console.log($scope.status);
+                if ($scope.category && $scope.title && $scope.description && $scope.content &&
+                    $scope.duration && $scope.opening_day && $scope.trailer && $scope.status) {
+                    let property = 0;
+                    if ($scope.trending) {
+                        property = property + 1;
+                    }
+                    if ($scope.upcoming) {
+                        property = property + 2;
+                    }
+                    if ($scope.popular) {
+                        property = property + 4;
+                    }
+
+                    $http({
+                            method: 'POST',
+                            url: $scope.APP_DOMAIN + 'admin/api/film?action=add',
+                            headers: {
+                                'content-type': undefined
+                            },
+                            data: {
+                                category: $scope.category,
+                                title: $scope.title,
+                                upload: $scope.filex,
+                                description: $scope.description,
+                                content: $scope.content,
+                                duration: $scope.duration,
+                                openingDay: $scope.opening_day,
+                                trailer: $scope.trailer,
+                                status: $scope.status,
+                                property: property
+
+                            },
+                            transformRequest: function(data, headersGetter) {
+                                console.log(data);
+                                var formData = new FormData();
+                                angular.forEach(data, function(value, key) {
+                                    formData.append(key, value);
+                                });
+
+                                return formData;
+
+                            }
+                        })
+                        .then(function(response) {
+                            console.log(response);
+                            if (response.data.errorCode < 0) {
+                                showNotification("error", response.data.message);
+                            } else {
+                                $scope.category = "0";
+                                $scope.title = "";
+                                $("#blah").css("display", "none");
+                                $('#preImg').val('');
+                                $scope.description = "";
+                                $scope.content = "";
+                                $scope.duration = "";
+                                $scope.opening_day = "";
+                                $scope.trailer = "";
+                                $scope.status = "0";
+                                $scope.trending = false;
+                                $scope.upcoming = false;
+                                $scope.popular = false;
+                                showNotification("success", response.data.message);
+                            }
+
+                        })
+                } else {
+                    showNotification("error", "Dữ liệu không hợp lệ!");
+                }
+
+            }
+
+
+        })
+    </script>
+</body>
+
+</html>

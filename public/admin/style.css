@@ -1,0 +1,24 @@
+.dangky {
+    text-align: center;
+    margin: 30px;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.form-dn {
+    margin: auto 450px;
+    border: 1px solid rgb(247, 243, 243);
+    background-color: honeydew;
+}
+
+#btn-dangky {
+    cursor: pointer;
+}
+
+#btn-dangnhap {
+    cursor: pointer;
+}
+
+.title {
+    vertical-align: baseline;
+}

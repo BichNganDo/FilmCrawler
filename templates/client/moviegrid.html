@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+    <!-- Basic need -->
+    ${header_include}
+
+</head>
+
+<body>
+    <!--preloading-->
+    ${header_menu}
+    <!-- END | Header -->
+    <!-- <div class="mt-2"></div> -->
+    <div class="page-single" style="min-height: 80vh;">
+        <div class="container">
+            <div class="row ipad-width">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="title-hd">
+                        <h2>${cate_name}</h2>
+                    </div>
+
+                    <div class="flex-wrap-movielist">
+                        <#list list_film_by_cate as film>
+                            <div class="movie-item-style-2 movie-item-style-1">
+                                <img src="${film.poster}" alt="">
+                                <div class="hvr-inner">
+                                    <a href="${app_domain}/chi-tiet-phim?id=${film.id}"> Xem chi tiết <i class="ion-android-arrow-dropright"></i> </a>
+                                </div>
+                                <div class="mv-item-infor">
+                                    <h6><a href="${app_domain}/chi-tiet-phim?id=${film.id}">${film.title}</a></h6>
+                                    <p>Thời lượng: ${film.duration}</p>
+                                </div>
+                            </div>
+                        </#list>
+                    </div>
+                    <div class="topbar-filter">
+                        <div class="pagination2" style="padding-left: 0px;">
+                            <span>Trang ${current_page} của ${total_page}:</span>
+                            <#list 1..total_page as i>
+                                <#if i gt 0>
+                                    <a class="<#if current_page==i>active</#if>" href="${app_domain}/the-loai?id=${id_cate}&page=${i}">${i}</a>
+                                </#if>
+                            </#list>
+                            <#if total_page gt 1>
+                                <a href="${app_domain}/the-loai?id=${id_cate}&page=${current_page+1}"><i class="ion-arrow-right-b"></i></a>
+                            </#if>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- footer section-->
+    <footer class="ht-footer">
+        <div class="ft-copyright">
+            <div class="ft-left">
+                <p>© Do Thi Bich Ngan</p>
+            </div>
+            <div class="backtotop">
+                <p><a href="#" id="back-to-top">Lên trên  <i class="ion-ios-arrow-thin-up"></i></a></p>
+            </div>
+        </div>
+    </footer>
+    <!-- end of footer section-->
+
+    ${footer_include}
+</body>
+
+</html>
