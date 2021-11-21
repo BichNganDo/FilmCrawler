@@ -27,7 +27,7 @@
             <div class="collapse navbar-collapse flex-parent" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav flex-child-menu menu-left">
                     <#list list_cate_film as cateFilm>
-                        <li><a href="${app_domain}/the-loai?id=${cateFilm.id}">${cateFilm.name}</a></li>
+                        <li><a class="<#if cateFilm.id==id_cate>active</#if>" href="${app_domain}/the-loai?id=${cateFilm.id}">${cateFilm.name} </a></li>
                     </#list>
                 </ul>
 

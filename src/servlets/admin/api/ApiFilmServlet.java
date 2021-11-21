@@ -243,9 +243,9 @@ public class ApiFilmServlet extends HttpServlet {
                                 // Process form file field (input type="file").
                                 String filename = FilenameUtils.getName(item.getName());
                                 InputStream a = item.getInputStream();
-                                Path uploadDir = Paths.get("C:\\Users\\Ngan Do\\Documents\\NetBeansProjects\\FilmCrawler\\upload\\poster_film\\" + filename);
+                                Path uploadDir = Paths.get("upload/poster_film/" + filename);
                                 Files.copy(a, uploadDir, StandardCopyOption.REPLACE_EXISTING);
-                                newImagePoster = "upload\\poster_film\\" + filename;
+                                newImagePoster = "upload/poster_film/" + filename;
                             }
                         }
 

@@ -19,7 +19,7 @@ import templater.PageGenerator;
 //        maxRequestSize = 1024 * 1024 * 50) // 50MB
 public class UploadFileServlet extends HttpServlet {
 
-    private static final MultipartConfigElement MULTI_PART_CONFIG = new MultipartConfigElement("C:\\Users\\Ngan Do\\Documents\\NetBeansProjects\\ElectronicProject\\upload");
+    private static final MultipartConfigElement MULTI_PART_CONFIG = new MultipartConfigElement("upload");
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

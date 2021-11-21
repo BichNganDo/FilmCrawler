@@ -16,7 +16,7 @@ public class TestDownloadImage {
             hc.connect();
             InputStream in = hc.getInputStream();
 
-            OutputStream out = new BufferedOutputStream(new FileOutputStream(dir + "\\" + name));
+            OutputStream out = new BufferedOutputStream(new FileOutputStream(dir + "/" + name));
             for (int b; (b = in.read()) != -1;) {
                 out.write(b);
             }
@@ -32,7 +32,7 @@ public class TestDownloadImage {
         String[] linkImage = link.split("/");
         String nameImage = linkImage[linkImage.length - 1];
         System.out.println(nameImage);
-        String dir = "C:\\Users\\Ngan Do\\Documents\\NetBeansProjects\\FilmCrawler\\image_film_download";
+        String dir = "image_film_download";
         downloadImage(link, nameImage, dir);
 //        downloadImage(infoFilm.getImage(), nameImage, dir);
     }

@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import model.CategoryFilmModel;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 
 public class HeaderMenu {
 
@@ -27,6 +28,9 @@ public class HeaderMenu {
         }
 
         pageVariablesHeaderMenu.put("query", query);
+
+        int id = NumberUtils.toInt(request.getParameter("id"));
+        pageVariablesHeaderMenu.put("id_cate", id);
 
         return pageVariablesHeaderMenu;
     }

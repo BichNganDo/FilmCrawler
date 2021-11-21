@@ -9194,6 +9194,10 @@ header .navbar-default .navbar-nav li a:hover {
     color: #dcf836;
 }
 
+header .navbar-default .navbar-nav li a.active {
+    color: #dcf836;
+}
+
 header .navbar-default .navbar-nav li a i {
     float: right;
     right: 0;
