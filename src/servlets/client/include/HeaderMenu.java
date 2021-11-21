@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import model.CategoryFilmModel;
+import org.apache.commons.lang3.StringUtils;
 
 public class HeaderMenu {
 
@@ -19,6 +20,13 @@ public class HeaderMenu {
 
         List<CategoryFilm> listCateFilm = CategoryFilmModel.INSTANCE.getSliceCateFilm(0, 20, "", 1);
         pageVariablesHeaderMenu.put("list_cate_film", listCateFilm);
+
+        String query = request.getParameter("query");
+        if (StringUtils.isEmpty(query)) {
+            query = "";
+        }
+
+        pageVariablesHeaderMenu.put("query", query);
 
         return pageVariablesHeaderMenu;
     }

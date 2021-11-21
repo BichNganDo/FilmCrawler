@@ -6596,7 +6596,7 @@ ul {
     content: '';
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.75);
+    background-color: #020D18;
 }
 
 
@@ -9397,7 +9397,8 @@ header#headerv3-light {
     background-color: #020d18;
 }
 
-.sticky {
+
+/* .sticky {
     background-color: #0f2133;
     position: fixed;
     width: 100%;
@@ -9414,9 +9415,10 @@ header#headerv3-light {
     -moz-transition: all 0.5s ease-out;
     -o-transition: all 0.5s ease-out;
     transition: all 0.5s ease-out;
-}
+} */
 
-.sticky .navbar-default {
+
+/* .sticky .navbar-default {
     padding: 12px 0;
     -webkit-transition: all 0.5s ease-out;
     -moz-transition: all 0.5s ease-out;
@@ -9426,7 +9428,7 @@ header#headerv3-light {
 
 .sticky .top-search {
     display: none;
-}
+} */
 
 @media (max-width: 991px) {
     .top-search select {

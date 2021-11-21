@@ -93,6 +93,7 @@ public class FilmModel {
                 film.setDirector(rs.getString("director"));
                 film.setCountry(rs.getString("country"));
                 film.setScore(rs.getString("score"));
+                film.setLinkWatch(rs.getString("link_watch"));
 
                 resultListFilm.add(film);
             }
@@ -193,6 +194,7 @@ public class FilmModel {
                 result.setDirector(rs.getString("director"));
                 result.setCountry(rs.getString("country"));
                 result.setScore(rs.getString("score"));
+                result.setLinkWatch(rs.getString("link_watch"));
             }
 
             return result;
@@ -204,6 +206,32 @@ public class FilmModel {
         return result;
     }
 
+    public boolean isExistFilm(String poster) {
+        Connection conn = null;
+        try {
+            conn = dbClient.getDbConnection();
+            if (null == conn) {
+                return false;
+            }
+
+            PreparedStatement isExistFilmStmt = conn.prepareStatement("SELECT * FROM `" + NAMETABLE + "` WHERE poster = ?");
+            isExistFilmStmt.setString(1, poster);
+
+            ResultSet rs = isExistFilmStmt.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+
+            return false;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            dbClient.releaseDbConnection(conn);
+        }
+
+        return false;
+    }
+
     public int addFilm(Film film) {
         Connection conn = null;
         try {
@@ -212,8 +240,8 @@ public class FilmModel {
                 return ErrorCode.CONNECTION_FAIL.getValue();
             }
             PreparedStatement addStmt = conn.prepareStatement("INSERT INTO `" + NAMETABLE + "` (id_cate, title, poster, score, "
-                    + "content, duration, opening_day, trailer, director, country, status, property, created_date) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                    + "content, duration, opening_day, trailer, director, country, status, property, created_date, link_watch) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
             addStmt.setInt(1, film.getIdCate());
             addStmt.setString(2, film.getTitle());
@@ -228,6 +256,7 @@ public class FilmModel {
             addStmt.setInt(11, film.getStatus());
             addStmt.setInt(12, film.getProperty().getValue());
             addStmt.setString(13, System.currentTimeMillis() + "");
+            addStmt.setString(14, film.getLinkWatch());
             int rs = addStmt.executeUpdate();
 
             return rs;
@@ -248,7 +277,8 @@ public class FilmModel {
                 return ErrorCode.CONNECTION_FAIL.getValue();
             }
             PreparedStatement editStmt = conn.prepareStatement("UPDATE `" + NAMETABLE + "` SET id_cate = ?, title = ?, poster = ?, "
-                    + "score = ?, content = ?, duration = ?, opening_day = ?, trailer = ?, director = ?, country = ?, status = ?, property = ? WHERE id = ? ");
+                    + "score = ?, content = ?, duration = ?, opening_day = ?, trailer = ?, director = ?, country = ?, status = ?, "
+                    + "property = ?, link_watch = ? WHERE id = ? ");
             editStmt.setInt(1, film.getIdCate());
             editStmt.setString(2, film.getTitle());
             editStmt.setString(3, film.getPoster());
@@ -261,7 +291,8 @@ public class FilmModel {
             editStmt.setString(10, film.getCountry());
             editStmt.setInt(11, film.getStatus());
             editStmt.setInt(12, film.getProperty().getValue());
-            editStmt.setInt(13, film.getId());
+            editStmt.setString(13, film.getLinkWatch());
+            editStmt.setInt(14, film.getId());
             int rs = editStmt.executeUpdate();
 
             return rs;

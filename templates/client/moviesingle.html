@@ -13,39 +13,48 @@
     ${header_include}
 </head>
 
+<style>
+    .more-content {
+        display: none;
+        color: white;
+    }
+    
+    button {
+        margin-top: 15px;
+        display: block;
+        background-color: #e41d3f;
+        color: white;
+        border: none;
+        outline: none;
+        padding: 8px 20px;
+        text-transform: capitalize;
+        cursor: pointer;
+        font-size: 20px;
+    }
+</style>
+
 <body>
     <!--preloading-->
     ${header_menu}
     <!-- END | Header -->
 
     <div class="hero">
-        <!-- <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <h1> movie listing - list</h1>
-                    <ul class="breadcumb">
-                        <li class="active"><a href="#">Home</a></li>
-                        <li> <span class="ion-ios-arrow-right"></span> movie listing</li>
-                    </ul>
-                </div>
-            </div>
-        </div> -->
     </div>
     <div class="page-single movie-single movie_single">
         <div class="container">
             <div class="row ipad-width2">
                 <div class="col-md-4 col-sm-12 col-xs-12">
-                    <div class="movie-img sticky-sb">
+                    <div class="movie-img">
                         <img src="${film_by_id.poster}" alt="">
                         <div class="movie-btn">
                             <div class="btn-transform red">
                                 <div>
-                                    <a href="${film_by_id.trailer}" class="item item-1 redbtn"> <i class="ion-play"></i> Xem Trailer</a>
+                                    <a target="_blank" href="${film_by_id.trailer}" class="item item-1 redbtn"> <i class="ion-play"></i> Xem Trailer</a>
                                 </div>
                             </div>
                             <div class="btn-transform">
                                 <div>
-                                    <a href="${film_by_id.trailer}" class="item item-1 yellowbtn"> <i class="ion-card"></i> Xem phim</a>
+                                    <a target="_blank" href="${film_by_id.linkWatch}" class="item item-1 yellowbtn"> <i class="ion-card"></i> Xem phim</a>
                                 </div>
                             </div>
                         </div>
@@ -63,7 +72,12 @@
                                     <div id="overview" class="tab active">
                                         <div class="row">
                                             <div class="col-md-8 col-sm-12 col-xs-12">
-                                                <p>${film_by_id.content}</p>
+                                                <span style="color: white;">${film_by_id.content?substring(0,900)}</span>
+                                                <span style="color: white;" class="dots">...</span>
+                                                <span class="more-content">
+                                                    ${film_by_id.content?substring(900)}
+                                                </span>
+                                                <button class="read-more redbtn">Xem thêm</button>
                                             </div>
                                             <div class="col-md-4 col-xs-12 col-sm-12">
                                                 <div class="sb-it">
@@ -75,8 +89,16 @@
                                                     <p>${film_by_id.openDay}</p>
                                                 </div>
                                                 <div class="sb-it">
-                                                    <h6>Thời lượng</h6>
+                                                    <h6>Thời lượng:</h6>
                                                     <p>${film_by_id.duration}</p>
+                                                </div>
+                                                <div class="sb-it">
+                                                    <h6>Đạo diễn:</h6>
+                                                    <p>${film_by_id.director}</p>
+                                                </div>
+                                                <div class="sb-it">
+                                                    <h6>Đất nước:</h6>
+                                                    <p>${film_by_id.country}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -104,5 +126,18 @@
 
     ${footer_include}
 </body>
+<script>
+    $(document).ready(function() {
+        $(".read-more").click(function() {
+            $(this).prev().toggle();
+            $(this).siblings('.dots').toggle();
+            if ($(this).text() == 'Xem thêm') {
+                $(this).text('Thu gọn');
+            } else {
+                $(this).text('Xem thêm');
+            }
+        });
+    });
+</script>
 
 </html>

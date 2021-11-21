@@ -26,29 +26,9 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse flex-parent" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav flex-child-menu menu-left">
-                    <li class="hidden">
-                        <a href="#page-top"></a>
-                    </li>
-                    <li class="dropdown first">
-                        <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
-                        Thể loại <i class="fa fa-angle-down" aria-hidden="true"></i>
-                        </a>
-                        <ul class="dropdown-menu level1">
-
-                            <#list list_cate_film as cateFilm>
-                                <li><a href="${app_domain}/the-loai?id=${cateFilm.id}">${cateFilm.name}</a></li>
-                            </#list>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="${app_domain}/danh-sach-phim?type=thinh-hanh">Thịnh hành</a>
-                    </li>
-                    <li>
-                        <a href="${app_domain}/danh-sach-phim?type=pho-bien">Phổ biến</a>
-                    </li>
-                    <li>
-                        <a href="${app_domain}/danh-sach-phim?type=sap-chieu">Sắp chiếu</a>
-                    </li>
+                    <#list list_cate_film as cateFilm>
+                        <li><a href="${app_domain}/the-loai?id=${cateFilm.id}">${cateFilm.name}</a></li>
+                    </#list>
                 </ul>
 
             </div>
@@ -56,10 +36,11 @@
         </nav>
 
         <!-- top search form -->
-        <div class="top-search">
-
-            <input type="text" placeholder="Tìm tên phim...">
-        </div>
+        <form action="${app_domain}/">
+            <div class="top-search">
+                <input name="query" value="${query}" type="text" placeholder="Tìm tên phim...">
+            </div>
+        </form>
     </div>
 </header>
 <!-- END | Header -->

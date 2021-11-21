@@ -20,16 +20,7 @@
             <div class="row ipad-width">
 
                 <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="title-hd">
-                        <#if type=="thinh-hanh">
-                            <h2>Thịnh hành</h2>
-                            <#elseif type=="pho-bien">
-                                <h2>Phổ biến</h2>
-                                <#elseif type=="sap-chieu">
-                                    <h2>Sắp chiếu</h2>
 
-                        </#if>
-                    </div>
                     <div class="flex-wrap-movielist">
                         <#list list_film_by_property as film>
                             <div class="movie-item-style-2 movie-item-style-1">
@@ -39,7 +30,7 @@
                                 </div>
                                 <div class="mv-item-infor">
                                     <h6><a href="${app_domain}/chi-tiet-phim?id=${film.id}">${film.title}</a></h6>
-                                    <p><span>Thời lượng:</span> ${film.duration}</p>
+                                    <p class="rate"><i class="ion-android-star"></i><span>${film.score}</span> /10</p>
                                 </div>
                             </div>
                         </#list>
@@ -50,11 +41,11 @@
                             <span>Trang ${current_page} của ${total_page}:</span>
                             <#list 1..total_page as i>
                                 <#if i gt 0>
-                                    <a class="<#if current_page==i>active</#if>" href="${app_domain}/danh-sach-phim?type=${type}&page=${i}">${i}</a>
+                                    <a class="<#if current_page==i>active</#if>" href="${app_domain}?page=${i}">${i}</a>
                                 </#if>
                             </#list>
                             <#if total_page gt 1>
-                                <a href="${app_domain}/danh-sach-phim?type=${type}&page=${current_page+1}"><i class="ion-arrow-right-b"></i></a>
+                                <a href="${app_domain}?page=${current_page+1}"><i class="ion-arrow-right-b"></i></a>
                             </#if>
                         </div>
                     </div>

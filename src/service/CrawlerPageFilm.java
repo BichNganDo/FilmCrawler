@@ -11,6 +11,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -143,6 +144,12 @@ public class CrawlerPageFilm {
                         infoFilm.setTrailer(linkTrailer);
                     }
                 }
+
+                Element classWatchFilm = document.getElementsByClass("header-info-block").first();
+                if (classWatchFilm != null) {
+                    String linkWatch = classWatchFilm.getElementsByClass("button_xemphim w-button").first().absUrl("href");
+                    infoFilm.setLinkWatch(linkWatch);
+                }
             } catch (IOException e) {
                 System.err.println(e.getMessage());
             }
@@ -170,6 +177,7 @@ public class CrawlerPageFilm {
     public static void main(String[] args) {
         CrawlerPageFilm crawler = new CrawlerPageFilm();
         List<InfoFilm> listMovieCrawler = crawler.getInfoMovie("https://www.ssphim.net/the-loai/phim-chieu-rap");
+        Collections.reverse(listMovieCrawler);
         for (InfoFilm infoFilm : listMovieCrawler) {
             Film film = new Film();
 
@@ -183,8 +191,8 @@ public class CrawlerPageFilm {
             film.setIdCate(idCate);
             film.setCategory(infoFilm.getCategory());
             film.setTitle(infoFilm.getTitle());
-
             film.setContent(infoFilm.getContent());
+
             if (StringUtils.isNotEmpty(infoFilm.getDuration())) {
                 film.setDuration(infoFilm.getDuration());
             } else {
@@ -200,11 +208,25 @@ public class CrawlerPageFilm {
             film.setTrailer(infoFilm.getTrailer());
             film.setProperty(1);
             film.setStatus(1);
-            film.setDirector(infoFilm.getDirector());
-            film.setCountry(infoFilm.getCountry());
-            film.setScore((infoFilm.getScore()));
 
-            FilmModel.INSTANCE.addFilm(film);
+            if (StringUtils.isNotEmpty(infoFilm.getDirector())) {
+                film.setDirector(infoFilm.getDirector());
+            } else {
+                film.setDirector("Chưa có thông tin");
+            }
+
+            if (StringUtils.isNotEmpty(infoFilm.getCountry())) {
+                film.setCountry(infoFilm.getCountry());
+            } else {
+                film.setCountry("Chưa có thông tin");
+            }
+
+            film.setScore((infoFilm.getScore()));
+            film.setLinkWatch(infoFilm.getLinkWatch());
+            boolean isExistFilm = FilmModel.INSTANCE.isExistFilm("upload/poster_film/" + nameImage);
+            if (isExistFilm == false) {
+                FilmModel.INSTANCE.addFilm(film);
+            }
 
         }
 

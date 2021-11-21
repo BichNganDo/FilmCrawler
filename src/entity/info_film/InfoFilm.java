@@ -13,6 +13,7 @@ public class InfoFilm {
     private String trailer;
     private String country;
     private String director;
+    private String linkWatch;
 
     public InfoFilm() {
     }
@@ -117,6 +118,14 @@ public class InfoFilm {
 
     public void setDirector(String director) {
         this.director = director;
+    }
+
+    public String getLinkWatch() {
+        return linkWatch;
+    }
+
+    public void setLinkWatch(String linkWatch) {
+        this.linkWatch = linkWatch;
     }
 
 }

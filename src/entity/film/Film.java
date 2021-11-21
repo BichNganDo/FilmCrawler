@@ -19,6 +19,7 @@ public class Film {
     private String country;
     private String director;
     private String score;
+    private String linkWatch;
 
     public Film() {
     }
@@ -236,6 +237,14 @@ public class Film {
 
     public void setDirector(String director) {
         this.director = director;
+    }
+
+    public String getLinkWatch() {
+        return linkWatch;
+    }
+
+    public void setLinkWatch(String linkWatch) {
+        this.linkWatch = linkWatch;
     }
 
 }
