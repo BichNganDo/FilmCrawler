@@ -19,6 +19,13 @@ public class HeaderMenu {
         pageVariablesHeaderMenu.put("app_domain", Config.APP_DOMAIN);
         pageVariablesHeaderMenu.put("static_domain", Config.STATIC_DOMAIN);
 
+        String url = request.getRequestURL().toString();
+        String[] urlSplit = url.split("/");
+        String nameSlug = urlSplit[urlSplit.length - 1];
+
+        int idCate = CategoryFilmModel.INSTANCE.getIdCateByNameSlug(nameSlug);
+        pageVariablesHeaderMenu.put("id_cate", idCate);
+
         List<CategoryFilm> listCateFilm = CategoryFilmModel.INSTANCE.getSliceCateFilm(0, 20, "", 1);
         pageVariablesHeaderMenu.put("list_cate_film", listCateFilm);
 
@@ -27,10 +34,7 @@ public class HeaderMenu {
             query = "";
         }
 
-        pageVariablesHeaderMenu.put("query", query);
-
-        int id = NumberUtils.toInt(request.getParameter("id"));
-        pageVariablesHeaderMenu.put("id_cate", id);
+        pageVariablesHeaderMenu.put("query", query.toLowerCase());
 
         return pageVariablesHeaderMenu;
     }

@@ -20,6 +20,8 @@ public class Film {
     private String director;
     private String score;
     private String linkWatch;
+    private String titleSlug;
+    private String categorySlug;
 
     public Film() {
     }
@@ -245,6 +247,22 @@ public class Film {
 
     public void setLinkWatch(String linkWatch) {
         this.linkWatch = linkWatch;
+    }
+
+    public String getTitleSlug() {
+        return titleSlug;
+    }
+
+    public void setTitleSlug(String titleSlug) {
+        this.titleSlug = titleSlug;
+    }
+
+    public String getCategorySlug() {
+        return categorySlug;
+    }
+
+    public void setCategorySlug(String categorySlug) {
+        this.categorySlug = categorySlug;
     }
 
 }

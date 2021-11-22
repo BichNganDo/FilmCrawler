@@ -3,6 +3,7 @@ package model;
 import client.MysqlClient;
 import common.ErrorCode;
 import entity.cate_film.CategoryFilm;
+import helper.ServletUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -60,6 +61,10 @@ public class CategoryFilmModel {
                 CategoryFilm categoryFilm = new CategoryFilm();
                 categoryFilm.setId(rs.getInt("id"));
                 categoryFilm.setName(rs.getString("name"));
+                //name Slug
+                String nameSlug = ServletUtil.toSlug(categoryFilm.getName());
+                categoryFilm.setNameSlug(nameSlug);
+
                 categoryFilm.setStatus(rs.getInt("status"));
                 long currentTimeMillis = rs.getLong("created_date");
                 Date date = new Date(currentTimeMillis);
@@ -154,6 +159,32 @@ public class CategoryFilmModel {
         return result;
     }
 
+    public int getIdCateByNameSlug(String nameSlug) {
+        int idCate = 0;
+        Connection conn = null;
+        try {
+            conn = dbClient.getDbConnection();
+            if (null == conn) {
+                return idCate;
+            }
+            PreparedStatement getIdCateByCategoryStmt = conn.prepareStatement("SELECT cate_film.id FROM `" + NAMETABLE + "` WHERE name_slug = ? ");
+            getIdCateByCategoryStmt.setString(1, nameSlug);
+
+            ResultSet rs = getIdCateByCategoryStmt.executeQuery();
+
+            if (rs.next()) {
+                idCate = rs.getInt("id");
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            dbClient.releaseDbConnection(conn);
+        }
+
+        return idCate;
+    }
+
     public int getIdCateByCategory(String categoryName) {
         int idCate = 0;
         Connection conn = null;
@@ -181,13 +212,14 @@ public class CategoryFilmModel {
             return idCate;
         }
 
-        idCate = INSTANCE.addCategoryFlm(categoryName, 1);
+        String nameSlug = ServletUtil.toSlug(categoryName);
+        idCate = INSTANCE.addCategoryFlm(categoryName, nameSlug, 1);
 
         return idCate;
 
     }
 
-    public int addCategoryFlm(String name, int status) {
+    public int addCategoryFlm(String name, String nameSlug, int status) {
         Connection conn = null;
         try {
             conn = dbClient.getDbConnection();
@@ -195,11 +227,12 @@ public class CategoryFilmModel {
                 return ErrorCode.CONNECTION_FAIL.getValue();
             }
 
-            PreparedStatement addStmt = conn.prepareStatement("INSERT INTO `" + NAMETABLE + "` (name, status, created_date)"
-                    + "VALUES (?, ?, ?)", new String[]{"id"});
+            PreparedStatement addStmt = conn.prepareStatement("INSERT INTO `" + NAMETABLE + "` (name, name_slug, status, created_date)"
+                    + "VALUES (?, ?, ?, ?)", new String[]{"id"});
             addStmt.setString(1, name);
-            addStmt.setInt(2, status);
-            addStmt.setString(3, System.currentTimeMillis() + "");
+            addStmt.setString(2, nameSlug);
+            addStmt.setInt(3, status);
+            addStmt.setString(4, System.currentTimeMillis() + "");
             int result = addStmt.executeUpdate();
             if (result > 0) {
                 try (ResultSet rs = addStmt.getGeneratedKeys()) {

@@ -22,9 +22,12 @@ public class MovieSingle extends HttpServlet {
         pageVariables.put("app_domain", Config.APP_DOMAIN);
         pageVariables.put("static_domain", Config.STATIC_DOMAIN);
 
-        int id = NumberUtils.toInt(request.getParameter("id"));
-        pageVariables.put("id_film", id);
-        Film filmById = FilmModel.INSTANCE.getFilmByID(id);
+        String url = request.getRequestURI().toString();
+        String[] urlSplit = url.split("-");
+        String idSplit = urlSplit[urlSplit.length - 1].replace(".html", "");
+        int idFilm = NumberUtils.toInt(idSplit);
+
+        Film filmById = FilmModel.INSTANCE.getFilmByID(idFilm);
         pageVariables.put("film_by_id", filmById);
 
         //Header Menu

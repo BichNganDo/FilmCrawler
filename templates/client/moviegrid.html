@@ -25,10 +25,10 @@
                             <div class="movie-item-style-2 movie-item-style-1">
                                 <img src="${film.poster}" alt="">
                                 <div class="hvr-inner">
-                                    <a href="${app_domain}/chi-tiet-phim?id=${film.id}"> Xem chi tiết <i class="ion-android-arrow-dropright"></i> </a>
+                                    <a href="${app_domain}/phim/${film.titleSlug}"> Xem chi tiết <i class="ion-android-arrow-dropright"></i> </a>
                                 </div>
                                 <div class="mv-item-infor">
-                                    <h6><a href="${app_domain}/chi-tiet-phim?id=${film.id}">${film.title}</a></h6>
+                                    <h6><a href="${app_domain}/phim/${film.titleSlug}">${film.title}</a></h6>
                                     <p class="rate"><i class="ion-android-star"></i><span>${film.score}</span> /10</p>
                                 </div>
                             </div>
@@ -39,11 +39,11 @@
                             <span>Trang ${current_page} của ${total_page}:</span>
                             <#list 1..total_page as i>
                                 <#if i gt 0>
-                                    <a class="<#if current_page==i>active</#if>" href="${app_domain}/the-loai?id=${id_cate}&page=${i}">${i}</a>
+                                    <a class="<#if current_page==i>active</#if>" href="${app_domain}/the-loai/${name_slug}?page=${i}">${i}</a>
                                 </#if>
                             </#list>
                             <#if total_page gt 1>
-                                <a href="${app_domain}/the-loai?id=${id_cate}&page=${current_page+1}"><i class="ion-arrow-right-b"></i></a>
+                                <a href="${app_domain}/the-loai/${name_slug}?page=${current_page+1}"><i class="ion-arrow-right-b"></i></a>
                             </#if>
                         </div>
                     </div>

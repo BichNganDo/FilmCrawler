@@ -1,7 +1,6 @@
 package servlets.client;
 
 import common.Config;
-import entity.cate_film.CategoryFilm;
 import entity.film.Film;
 import entity.film.FilterFilm;
 import java.io.IOException;
@@ -12,13 +11,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.CategoryFilmModel;
 import model.FilmModel;
 import org.apache.commons.lang3.math.NumberUtils;
 import servlets.client.include.HeaderMenu;
 import templater.PageGenerator;
 
-public class MovieGrid extends HttpServlet {
+public class Home extends HttpServlet {
 
     private int DEFAULT_ITEM_PER_PAGE = 18;
 
@@ -28,30 +26,22 @@ public class MovieGrid extends HttpServlet {
         pageVariables.put("app_domain", Config.APP_DOMAIN);
         pageVariables.put("static_domain", Config.STATIC_DOMAIN);
 
-        String url = request.getRequestURL().toString();
-        String[] urlSplit = url.split("/");
-        String nameSlug = urlSplit[urlSplit.length - 1];
-        pageVariables.put("name_slug", nameSlug);
-
-        int idCate = CategoryFilmModel.INSTANCE.getIdCateByNameSlug(nameSlug);
-        pageVariables.put("id_cate", idCate);
-        CategoryFilm categoryById = CategoryFilmModel.INSTANCE.getCategoryFilmByID(idCate);
-        String cateName = categoryById.getName();
-        pageVariables.put("cate_name", cateName);
-
         int itemPerPage = NumberUtils.toInt(request.getParameter("limit"), DEFAULT_ITEM_PER_PAGE);
         if (itemPerPage < 0 && itemPerPage > 50) {
             itemPerPage = DEFAULT_ITEM_PER_PAGE;
         }
-
-        FilterFilm filterFilmByCate = new FilterFilm();
-        filterFilmByCate.setSearchCate(idCate);
-
         pageVariables.put("item_per_page", itemPerPage);
-        int totalFilmByCate = FilmModel.INSTANCE.getTotalProduct(filterFilmByCate);
-        pageVariables.put("total_film_by_cate", totalFilmByCate);
 
-        int totalPage = (int) Math.ceil((double) totalFilmByCate / itemPerPage);
+        String query = request.getParameter("query");
+
+        FilterFilm filterFilmByProperty = new FilterFilm();
+        filterFilmByProperty.setSearchProperty(1);
+        filterFilmByProperty.setSearchQuery(query);
+
+        int totalFilmByProperty = FilmModel.INSTANCE.getTotalProduct(filterFilmByProperty);
+        pageVariables.put("total_film_by_property", totalFilmByProperty);
+
+        int totalPage = (int) Math.ceil((double) totalFilmByProperty / itemPerPage);
         pageVariables.put("total_page", totalPage);
 
         int page = NumberUtils.toInt(request.getParameter("page"), 1);
@@ -69,9 +59,11 @@ public class MovieGrid extends HttpServlet {
         filterFilm.setOffset(offset);
         filterFilm.setLimit(itemPerPage);
         filterFilm.setSearchStatus(1);
-        filterFilm.setSearchCate(idCate);
-        List<Film> listFilmByCate = FilmModel.INSTANCE.getSliceFilm(filterFilm);
-        pageVariables.put("list_film_by_cate", listFilmByCate);
+        filterFilm.setSearchProperty(1);
+        filterFilm.setSearchQuery(query);
+
+        List<Film> listFilmByProperty = FilmModel.INSTANCE.getSliceFilm(filterFilm);
+        pageVariables.put("list_film_by_property", listFilmByProperty);
 
         //Header Menu
         pageVariables.put("header_menu", PageGenerator.instance().getPage("client/include/header_menu.html", HeaderMenu.INSTANCE.buildHeaderMenuData(request)));
@@ -82,7 +74,7 @@ public class MovieGrid extends HttpServlet {
         pageVariables.put("footer_include", PageGenerator.instance().getPage("client/include/footer.html", pageVariablesHeader));
 
         response.setContentType("text/html;charset=UTF-8");
-        response.getWriter().println(PageGenerator.instance().getPage("client/moviegrid.html", pageVariables));
+        response.getWriter().println(PageGenerator.instance().getPage("client/home.html", pageVariables));
 
         response.setStatus(HttpServletResponse.SC_OK);
     }

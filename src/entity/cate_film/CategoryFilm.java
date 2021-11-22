@@ -6,6 +6,7 @@ public class CategoryFilm {
     private String name;
     private int status;
     private String createdDate;
+    private String nameSlug;
 
     public CategoryFilm() {
     }
@@ -47,6 +48,14 @@ public class CategoryFilm {
 
     public void setCreatedDate(String createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public String getNameSlug() {
+        return nameSlug;
+    }
+
+    public void setNameSlug(String nameSlug) {
+        this.nameSlug = nameSlug;
     }
 
 }

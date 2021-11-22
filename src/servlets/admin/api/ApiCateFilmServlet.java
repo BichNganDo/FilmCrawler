@@ -79,8 +79,9 @@ public class ApiCateFilmServlet extends HttpServlet {
             case "add": {
                 String name = request.getParameter("name");
                 int status = NumberUtils.toInt(request.getParameter("status"));
+                String nameSlug = ServletUtil.toSlug(name);
 
-                int addCateFilm = CategoryFilmModel.INSTANCE.addCategoryFlm(name, status);
+                int addCateFilm = CategoryFilmModel.INSTANCE.addCategoryFlm(name, nameSlug, status);
 
                 if (addCateFilm >= 0) {
                     result.setErrorCode(0);

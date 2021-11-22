@@ -17,6 +17,7 @@ import servlets.admin.cate_film.ManageCategoryFilm;
 import servlets.admin.film.AddFilm;
 import servlets.admin.film.EditFilm;
 import servlets.admin.film.ManageFilm;
+import servlets.client.Home;
 import servlets.client.ListMovieByProperty;
 import servlets.client.MovieGrid;
 import servlets.client.MovieSingle;
@@ -44,9 +45,11 @@ public class Main {
         context.addServlet(new ServletHolder(new UploadFileServlet()), "/admin/upload-file");
 //</editor-fold>
 
-        context.addServlet(new ServletHolder(new MovieGrid()), "/the-loai");
-        context.addServlet(new ServletHolder(new ListMovieByProperty()), "/");
+        context.addServlet(new ServletHolder(new Home()), "/");
+        context.addServlet(new ServletHolder(new MovieGrid()), "/the-loai/*");
+        context.addServlet(new ServletHolder(new ListMovieByProperty()), "/danh-sach-phim");
         context.addServlet(new ServletHolder(new MovieSingle()), "/chi-tiet-phim");
+        context.addServlet(new ServletHolder(new MovieSingle()), "/phim/*");
 
         ContextHandler resourceHandler = new ContextHandler("/static");
         String resource = "./public";
