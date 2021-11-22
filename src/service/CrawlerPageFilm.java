@@ -11,9 +11,15 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.TimeZone;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import model.CategoryFilmModel;
@@ -188,63 +194,75 @@ public class CrawlerPageFilm {
     }
 
     public static void main(String[] args) {
-        CrawlerPageFilm crawler = new CrawlerPageFilm();
-        for (int i = 10; i > 0; i--) {
-            List<InfoFilm> listMovieCrawler = crawler.getInfoMovie("https://www.ssphim.net/the-loai/phim-chieu-rap?d5307828_page=" + i);
-            Collections.reverse(listMovieCrawler);
-            for (InfoFilm infoFilm : listMovieCrawler) {
-                Film film = new Film();
+        Calendar today = Calendar.getInstance(TimeZone.getTimeZone("GMT+7:00"));
+        today.set(Calendar.HOUR_OF_DAY, 7);
+        today.set(Calendar.MINUTE, 10);
+        today.set(Calendar.SECOND, 0);
+        today.set(Calendar.MILLISECOND, 0);
 
-                String[] linkImage = infoFilm.getImage().split("/");
-                String nameImage = linkImage[linkImage.length - 1];
-                String dir = "upload/poster_film";
-                crawler.downloadImage(infoFilm.getImage(), nameImage, dir);
-                film.setPoster("upload/poster_film/" + nameImage);
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                CrawlerPageFilm crawler = new CrawlerPageFilm();
+                for (int i = 10; i > 0; i--) {
+                    List<InfoFilm> listMovieCrawler = crawler.getInfoMovie("https://www.ssphim.net/the-loai/phim-chieu-rap?d5307828_page=" + i);
+                    Collections.reverse(listMovieCrawler);
+                    for (InfoFilm infoFilm : listMovieCrawler) {
+                        Film film = new Film();
 
-                int idCate = CategoryFilmModel.INSTANCE.getIdCateByCategory(infoFilm.getCategory());
-                film.setIdCate(idCate);
-                film.setCategory(infoFilm.getCategory());
-                film.setTitle(infoFilm.getTitle());
-                film.setContent(infoFilm.getContent());
+                        String[] linkImage = infoFilm.getImage().split("/");
+                        String nameImage = linkImage[linkImage.length - 1];
+                        String dir = "upload/poster_film";
+                        crawler.downloadImage(infoFilm.getImage(), nameImage, dir);
+                        film.setPoster("upload/poster_film/" + nameImage);
 
-                if (StringUtils.isNotEmpty(infoFilm.getDuration())) {
-                    film.setDuration(infoFilm.getDuration());
-                } else {
-                    film.setDuration("Chưa có thông tin");
+                        int idCate = CategoryFilmModel.INSTANCE.getIdCateByCategory(infoFilm.getCategory());
+                        film.setIdCate(idCate);
+                        film.setCategory(infoFilm.getCategory());
+                        film.setTitle(infoFilm.getTitle());
+                        film.setContent(infoFilm.getContent());
+
+                        if (StringUtils.isNotEmpty(infoFilm.getDuration())) {
+                            film.setDuration(infoFilm.getDuration());
+                        } else {
+                            film.setDuration("Chưa có thông tin");
+                        }
+
+                        if (StringUtils.isNotEmpty(infoFilm.getOpenDay())) {
+                            film.setOpenDay(infoFilm.getOpenDay());
+                        } else {
+                            film.setOpenDay("Coming soon");
+                        }
+
+                        film.setTrailer(infoFilm.getTrailer());
+                        film.setProperty(1);
+                        film.setStatus(1);
+
+                        if (StringUtils.isNotEmpty(infoFilm.getDirector())) {
+                            film.setDirector(infoFilm.getDirector());
+                        } else {
+                            film.setDirector("Chưa có thông tin");
+                        }
+
+                        if (StringUtils.isNotEmpty(infoFilm.getCountry())) {
+                            film.setCountry(infoFilm.getCountry());
+                        } else {
+                            film.setCountry("Chưa có thông tin");
+                        }
+
+                        film.setScore((infoFilm.getScore()));
+                        film.setLinkWatch(infoFilm.getLinkWatch());
+
+                        boolean isExistFilm = FilmModel.INSTANCE.isExistFilm("upload/poster_film/" + nameImage);
+                        if (isExistFilm == false) {
+                            FilmModel.INSTANCE.addFilm(film);
+                        }
+
+                    }
                 }
-
-                if (StringUtils.isNotEmpty(infoFilm.getOpenDay())) {
-                    film.setOpenDay(infoFilm.getOpenDay());
-                } else {
-                    film.setOpenDay("Coming soon");
-                }
-
-                film.setTrailer(infoFilm.getTrailer());
-                film.setProperty(1);
-                film.setStatus(1);
-
-                if (StringUtils.isNotEmpty(infoFilm.getDirector())) {
-                    film.setDirector(infoFilm.getDirector());
-                } else {
-                    film.setDirector("Chưa có thông tin");
-                }
-
-                if (StringUtils.isNotEmpty(infoFilm.getCountry())) {
-                    film.setCountry(infoFilm.getCountry());
-                } else {
-                    film.setCountry("Chưa có thông tin");
-                }
-
-                film.setScore((infoFilm.getScore()));
-                film.setLinkWatch(infoFilm.getLinkWatch());
-
-                boolean isExistFilm = FilmModel.INSTANCE.isExistFilm("upload/poster_film/" + nameImage);
-                if (isExistFilm == false) {
-                    FilmModel.INSTANCE.addFilm(film);
-                }
-
             }
-        }
+        }, today.getTime(), TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS));
 
     }
 
