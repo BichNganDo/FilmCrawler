@@ -6,16 +6,16 @@
             <file>file:/C:/Users/Ngan%20Do/Documents/NetBeansProjects/FilmCrawler/src/servlets/client/include/HeaderMenu.java</file>
             <file>file:/C:/Users/Ngan%20Do/Documents/NetBeansProjects/FilmCrawler/src/servlets/client/MovieGrid.java</file>
             <file>file:/C:/Users/Ngan%20Do/Documents/NetBeansProjects/FilmCrawler/src/servlets/client/MovieSingle.java</file>
-            <file>file:/C:/Users/Ngan%20Do/Documents/NetBeansProjects/FilmCrawler/test/TestDownloadImage.java</file>
-            <file>file:/C:/Users/Ngan%20Do/Documents/NetBeansProjects/FilmCrawler/test/TestRegex.java</file>
+            <file>file:/C:/Users/Ngan%20Do/Documents/NetBeansProjects/FilmCrawler/src/helper/ServletUtil.java</file>
+            <file>file:/C:/Users/Ngan%20Do/Documents/NetBeansProjects/FilmCrawler/src/servlets/client/Home.java</file>
+            <file>file:/C:/Users/Ngan%20Do/Documents/NetBeansProjects/FilmCrawler/src/model/CategoryFilmModel.java</file>
             <file>file:/C:/Users/Ngan%20Do/Documents/NetBeansProjects/FilmCrawler/src/model/FilmModel.java</file>
-            <file>file:/C:/Users/Ngan%20Do/Documents/NetBeansProjects/FilmCrawler/src/servlets/admin/api/ApiFilmServlet.java</file>
             <file>file:/C:/Users/Ngan%20Do/Documents/NetBeansProjects/FilmCrawler/src/entity/film/Film.java</file>
+            <file>file:/C:/Users/Ngan%20Do/Documents/NetBeansProjects/FilmCrawler/src/entity/cate_film/CategoryFilm.java</file>
             <file>file:/C:/Users/Ngan%20Do/Documents/NetBeansProjects/FilmCrawler/src/main/Main.java</file>
             <file>file:/C:/Users/Ngan%20Do/Documents/NetBeansProjects/FilmCrawler/src/servlets/client/ListMovieByProperty.java</file>
             <file>file:/C:/Users/Ngan%20Do/Documents/NetBeansProjects/FilmCrawler/src/service/CrawlerPageFilm.java</file>
-            <file>file:/C:/Users/Ngan%20Do/Documents/NetBeansProjects/FilmCrawler/src/servlets/admin/UploadFileServlet.java</file>
-            <file>file:/C:/Users/Ngan%20Do/Documents/NetBeansProjects/FilmCrawler/src/entity/info_film/InfoFilm.java</file>
+            <file>file:/C:/Users/Ngan%20Do/Documents/NetBeansProjects/FilmCrawler/test/TestTimer.java</file>
         </group>
     </open-files>
 </project-private>
