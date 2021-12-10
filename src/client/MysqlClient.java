@@ -30,11 +30,13 @@ public class MysqlClient {
     private static final Map<String, MysqlClient> _cli = new ConcurrentHashMap<String, MysqlClient>();
 
     private MysqlClient() {
+//        _host = "http://192.168.1.199";
         _host = "localhost";
         _port = 3306;
         _dbname = "movie_project";
         _user = "root";
-        _password = "";
+//        _password = "";
+        _password = "Aoanhs2303!@#";
         _poolsize = 10;
         this.init();
     }
@@ -68,6 +70,7 @@ public class MysqlClient {
                     conn = DriverManager.getConnection(url);
                 }
             } catch (Exception ex) {
+                System.out.println(ex.getMessage());
             }
             ++retry;
         } while (conn == null && retry < 3);
